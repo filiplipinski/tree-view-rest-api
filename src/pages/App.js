@@ -6,7 +6,7 @@ import Categories from '../components/categories/Categories'
 const App = () => {
   return (
     <Layout>
-      <H1>Katalog produktów</H1>
+      <H1>katalog produktów</H1>
       <Categories />
     </Layout>
   );
