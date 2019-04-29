@@ -8,20 +8,23 @@ import api from '../../services/api';
 class Categories extends Component {
   state = {
     data: [],
-    childVisible: []
   }
 
   componentDidMount() {
     api.get().then(data => {
       data.map(single_data => {
-        single_data.childVisible = false;
+        if (single_data.id === 1) single_data.childVisible = true;
+        else single_data.childVisible = false;
         return data;
       });
+      data.sort((a, b) => (a.ordering - b.ordering));
       this.setState({ data });
-      console.log(data);
+      console.log(data)
     });
 
-    //temporary:
+
+
+    // temporary:
     // const fakeData = [{
     //   id: 1,
     //   parent_id: null,
@@ -100,17 +103,6 @@ class Categories extends Component {
     //   symbol: null
     // },
     // {
-    //   id: 53,
-    //   parent_id: 58,
-    //   is_visible: true,
-    //   name: 'Torebki',
-    //   description: 'new desc',
-    //   picture_filename: '',
-    //   ordering: 0,
-    //   source_id: null,
-    //   symbol: null
-    // },
-    // {
     //   id: 59,
     //   parent_id: 58,
     //   is_visible: true,
@@ -121,6 +113,18 @@ class Categories extends Component {
     //   source_id: null,
     //   symbol: null
     // },
+    // {
+    //   id: 53,
+    //   parent_id: 58,
+    //   is_visible: true,
+    //   name: 'Torebki',
+    //   description: 'new desc',
+    //   picture_filename: '',
+    //   ordering: 0,
+    //   source_id: null,
+    //   symbol: null
+    // },
+
     // {
     //   id: 26,
     //   parent_id: 59,
@@ -200,19 +204,34 @@ class Categories extends Component {
     // }];
 
     // fakeData.map(data => {
-    //   data.childVisible = false;
+    //   if (data.id === 1) data.childVisible = true;
+    //   else data.childVisible = false;
     //   return data;
     // });
+    // fakeData.sort((a, b) => (a.ordering - b.ordering));
 
     // this.setState({ data: fakeData });
+  }
+
+  updateState = (updatedCat) => {
+    const modifiedCat = this.state.data.map(cat => {
+      if (cat.id === updatedCat.id) {
+        cat.parent_id = updatedCat.parent_id;
+        cat.name = updatedCat.name;
+        cat.description = updatedCat.description;
+        cat.is_visible = updatedCat.is_visible;
+        cat.ordering = updatedCat.ordering;
+      }
+      return cat
+    });
+
+    this.setState({ data: modifiedCat });
   }
 
   getMainCat = () => {
     const { data } = this.state;
 
     const rootChilds = data.filter(cat => cat.parent_id === 1);
-    rootChilds.sort((a, b) => (a.ordering - b.ordering));
-
     return rootChilds;
   }
 
@@ -229,9 +248,10 @@ class Categories extends Component {
       if (data.id === single_cat.id) data.childVisible = !data.childVisible;
       return data;
     });
-
     this.setState({ data: newData })
   }
+
+
 
   render() {
     let mainCatHTML = null;
@@ -245,13 +265,14 @@ class Categories extends Component {
           single_cat={single_cat}
           getChildCat={this.getChildCat}
           toggleVisibility={this.toggleVisibility}
+          updateState={this.updateState}
         />
       ))
     }
     return (
       <Container>
         <Heading>Kategorie:</Heading>
-        {mainCatHTML}
+        {mainCatHTML ? mainCatHTML : <p>Ładowanie...</p>}
       </Container >
     )
   }

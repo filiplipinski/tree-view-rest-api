@@ -20,12 +20,19 @@ const fetchData = async (url, method, data) => {
     .then(data => data)
     .catch(err => console.log(err))
 
-  return response.data.categories;
+  return response;
 }
 
 const api = {
   get: async () => {
-    return await fetchData('/categories', 'GET');
+    return await fetchData('/categories', 'GET').then(dataReceived => dataReceived.data.categories);
+  },
+  put: async (id, category) => {
+    const data = {
+      category
+    }
+
+    return await fetchData(`/categories/${id}`, 'PUT', data).then(dataReceived => dataReceived.data.category);
   }
 }
 
