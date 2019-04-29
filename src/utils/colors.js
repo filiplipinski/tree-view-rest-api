@@ -5,6 +5,7 @@ export const colors = {
   title: "#eee",
   h1: "#222",
   white: "#fff",
-  icon_hover: "#0086ff",
-  red: "#e6000b"
+  blue: "#0086ff",
+  green: "#36BC50",
+  red: "#EA4335"
 }

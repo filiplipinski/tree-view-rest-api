@@ -10,6 +10,8 @@ class Categories extends Component {
     data: [],
   }
 
+  doesRemovalConfirmed = false;
+
   componentDidMount() {
     api.get().then(data => {
       data.map(single_data => {
@@ -228,6 +230,25 @@ class Categories extends Component {
     this.setState({ data: modifiedCat });
   }
 
+  addToState = (newCat) => {
+    this.setState(prevState => ({
+      data: [...prevState.data, newCat],
+    }));
+  }
+
+  deleteCatFromState = (catToDelete) => {
+    api.delete(catToDelete).then(response =>{
+      if(response) {
+        let dataWithoutSingleCat = [...this.state.data];
+
+        const indexToDelete = dataWithoutSingleCat.findIndex(data => data.id === catToDelete);
+        dataWithoutSingleCat.splice(indexToDelete, 1);
+
+        this.setState({ data: dataWithoutSingleCat });
+      }
+    });
+  }
+
   getMainCat = () => {
     const { data } = this.state;
 
@@ -266,6 +287,8 @@ class Categories extends Component {
           getChildCat={this.getChildCat}
           toggleVisibility={this.toggleVisibility}
           updateState={this.updateState}
+          addToState={this.addToState}
+          deleteCatFromState={this.deleteCatFromState}
         />
       ))
     }

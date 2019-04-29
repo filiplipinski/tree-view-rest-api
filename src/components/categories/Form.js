@@ -35,7 +35,7 @@ const StyledInputSubmit = styled(StyledInput)`
   :hover{
     color: ${({ theme }) => theme.colors.title};
     background-color: ${({ theme }) => theme.colors.title_bgc};
-    border: 1px solid ${({ theme }) => theme.colors.title};
+    box-shadow: 0 0 0px 1px inset ${({ theme }) => theme.colors.title};
   }
 `;
 
@@ -78,15 +78,27 @@ class Form extends Component {
     const { name, description } = this.state;
     const { id, parent_id, ordering } = this.props.single_cat;
 
-    const data = {
-      parent_id,
-      name,
-      description,
-      ordering,
-      is_visible: true
+    if (this.props.editOrAdd === "edit") {
+      const data = {
+        parent_id,
+        name,
+        description,
+        ordering,
+        is_visible: true
+      }
+      api.put(id, data).then(data => this.props.updateState(data));
     }
+    else if (this.props.editOrAdd === "add") {
+      const data = {
+        parent_id: id,
+        name,
+        description,
+        is_visible: true
+      }
+      api.post(data).then(data => this.props.addToState(data));
+    }
+    else alert("Invalid props editOrAdd");
 
-    api.put(id, data).then(data => this.props.updateState(data));
     this.props.closeForm();
   }
 
@@ -95,7 +107,10 @@ class Form extends Component {
 
     return (
       <StyledForm onSubmit={this.handleSubmit}>
-        <StyledText>Edycja kategorii: {this.props.single_cat.name}</StyledText>
+        <StyledText>
+          {this.props.editOrAdd === "edit" && (`Edycja kategorii: ${this.props.single_cat.name}`)}
+          {this.props.editOrAdd === "add" && (`Dodawanie podkategorii do: ${this.props.single_cat.name}`)}
+        </StyledText>
         <StyledX onClick={this.props.closeForm}> <IoIosCloseCircleOutline />  </StyledX>
         <StyledInput value={name} onChange={this.handleChange} name="name" type="text" placeholder="Nazwa" />
         <StyledInput value={description} onChange={this.handleChange} name="description" type="text" placeholder="Opis" />

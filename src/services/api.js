@@ -27,12 +27,24 @@ const api = {
   get: async () => {
     return await fetchData('/categories', 'GET').then(dataReceived => dataReceived.data.categories);
   },
+
   put: async (id, category) => {
     const data = {
       category
     }
 
     return await fetchData(`/categories/${id}`, 'PUT', data).then(dataReceived => dataReceived.data.category);
+  },
+
+  post: async (category) => {
+    const data = {
+      category
+    }
+    return await fetchData('/categories', 'POST', data).then(dataReceived => dataReceived.data.category);
+  },
+
+  delete: async (id) => {
+    return await fetchData(`/categories/${id}`, 'DELETE').then(dataReceived => dataReceived.success);
   }
 }
 

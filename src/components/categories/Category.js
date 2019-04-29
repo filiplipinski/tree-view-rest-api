@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Form from './Form';
 import styled from 'styled-components';
 import { MdChevronRight, MdExpandMore } from 'react-icons/md';
-import { FaRegEdit } from 'react-icons/fa';
+import { FaRegEdit, FaRegPlusSquare, FaRegTrashAlt } from 'react-icons/fa';
 
 const StyledName = styled.p`
   font-size: 1.5em;
@@ -28,14 +28,24 @@ const StyledCatContainer = styled.div`
   }
 `
 
-const StyledEditIcon = styled.div`
+const StyledIcon = styled.div`
   font-size: 25px;
   margin-left: 10px;
   cursor: pointer;
 
   :hover{
-    color:  ${({ theme }) => theme.colors.icon_hover};
+    color:  ${({ theme }) => theme.colors.blue};
     transform: scale(1.2);    
+  }
+`
+const StyledAddIcon = styled(StyledIcon)`
+  :hover{
+    color:  ${({ theme }) => theme.colors.green};
+  }
+`
+const StyledDeleteIcon = styled(StyledIcon)`
+  :hover{
+    color:  ${({ theme }) => theme.colors.red};
   }
 `
 
@@ -47,8 +57,9 @@ const StyledWrapper = styled.div`
 `
 
 const Category = (props) => {
-  const { single_cat, getChildCat, depth, toggleVisibility, updateState} = props;
+  const { single_cat, getChildCat, depth, toggleVisibility, updateState, addToState, deleteCatFromState } = props;
   const [renderForm, setRenderForm] = useState(false);
+  const [editOrAdd, setEditOrAdd] = useState("edit");
 
   const childs = getChildCat(single_cat).map(child => (
     <Category
@@ -57,6 +68,8 @@ const Category = (props) => {
       getChildCat={getChildCat}
       toggleVisibility={toggleVisibility}
       updateState={updateState}
+      addToState={addToState}
+      deleteCatFromState={deleteCatFromState}
       depth={depth + 1}
     />
   ))
@@ -71,7 +84,7 @@ const Category = (props) => {
       {single_cat.is_visible && (
         <StyledWrapper>
           <StyledCatContainer depth={depth} onClick={() => toggleVisibility(single_cat)}>
-          {/* CHHHHHWWIIILOWY ONLICK NA STYLEDNAME !!!!!!!!!! */}
+            {/* CHHHHHWWIIILOWY ONLICK NA STYLEDNAME !!!!!!!!!! */}
             <StyledName onClick={() => console.log(single_cat)}>
               {doHaveMoreChilds() && (single_cat.childVisible ? <MdExpandMore /> : <MdChevronRight />)}
               {single_cat.name}
@@ -80,11 +93,19 @@ const Category = (props) => {
 
           </StyledCatContainer>
 
-          <StyledEditIcon onClick={() => setRenderForm(!renderForm)}>
-            <FaRegEdit />
-          </StyledEditIcon>
+          <StyledAddIcon onClick={() => { setRenderForm(!renderForm); setEditOrAdd("add"); }}>
+            <FaRegPlusSquare />
+          </StyledAddIcon>
 
-          {renderForm && <Form single_cat={single_cat} closeForm={() => setRenderForm(!renderForm)} updateState={updateState}/>}
+          <StyledIcon onClick={() => { setRenderForm(!renderForm); setEditOrAdd("edit"); }}>
+            <FaRegEdit />
+          </StyledIcon>
+
+          <StyledDeleteIcon onClick={() => deleteCatFromState(single_cat.id)}>
+            <FaRegTrashAlt />
+          </StyledDeleteIcon>
+
+          {renderForm && <Form single_cat={single_cat} closeForm={() => setRenderForm(!renderForm)} updateState={updateState} addToState={addToState} editOrAdd={editOrAdd} />}
         </StyledWrapper>
       )}
       {single_cat.childVisible && childs}
