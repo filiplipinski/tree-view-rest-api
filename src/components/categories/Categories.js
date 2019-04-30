@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Heading from './Heading';
 import Container from './Container';
 import Category from './Category';
 import api from '../../services/api';
@@ -15,6 +14,7 @@ class Categories extends Component {
   componentDidMount() {
     api.get().then(data => {
       data.map(single_data => {
+        // Adding property 'childVisible' which specify if category is expanded ( and subcategories are visible ) or not.
         if (single_data.id === 1) single_data.childVisible = true;
         else single_data.childVisible = false;
         return data;
@@ -23,7 +23,6 @@ class Categories extends Component {
       this.setState({ data });
       console.log(data)
     });
-
 
 
     // temporary:
@@ -237,8 +236,8 @@ class Categories extends Component {
   }
 
   deleteCatFromState = (catToDelete) => {
-    api.delete(catToDelete).then(response =>{
-      if(response) {
+    api.delete(catToDelete).then(response => {
+      if (response) {
         let dataWithoutSingleCat = [...this.state.data];
 
         const indexToDelete = dataWithoutSingleCat.findIndex(data => data.id === catToDelete);
@@ -247,13 +246,6 @@ class Categories extends Component {
         this.setState({ data: dataWithoutSingleCat });
       }
     });
-  }
-
-  getMainCat = () => {
-    const { data } = this.state;
-
-    const rootChilds = data.filter(cat => cat.parent_id === 1);
-    return rootChilds;
   }
 
   getChildCat = (single_cat) => {
@@ -273,14 +265,13 @@ class Categories extends Component {
   }
 
 
-
   render() {
-    let mainCatHTML = null;
+    let rootReactElem = null;
 
     if (this.state.data.length !== 0) {
-      const mainCat = this.getMainCat();
+      const root = this.state.data.filter(cat => cat.id === 1);
 
-      mainCatHTML = mainCat.map(single_cat => (
+      rootReactElem = root.map(single_cat => (
         <Category
           key={single_cat.id}
           single_cat={single_cat}
@@ -292,10 +283,10 @@ class Categories extends Component {
         />
       ))
     }
+
     return (
       <Container>
-        <Heading>Kategorie:</Heading>
-        {mainCatHTML ? mainCatHTML : <p>Ładowanie...</p>}
+        {rootReactElem ? rootReactElem : <p>Ładowanie...</p>}
       </Container >
     )
   }

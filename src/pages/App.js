@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout from '../layout/Layout';
-import H1 from '../components/H1';
+import Header from '../components/Header';
 import Categories from '../components/categories/Categories'
 
 const App = () => {
   return (
     <Layout>
-      <H1>katalog produktów</H1>
+      <Header>katalog produktów</Header>
       <Categories />
     </Layout>
   );

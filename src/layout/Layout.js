@@ -3,8 +3,12 @@ import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { theme } from "../utils/theme";
 
 const GlobalStyle = createGlobalStyle`
+  html {
+    font-size: 62.5%;
+  }
   body{
     font-family: 'Montserrat';
+    font-size: 1.6rem;
   }
   
   *,

@@ -77,6 +77,7 @@ class Form extends Component {
   handleSubmit = () => {
     const { name, description } = this.state;
     const { id, parent_id, ordering } = this.props.single_cat;
+    const newOrderingForAddedCat = this.props.biggestOrderingOfChilds + 1;
 
     if (this.props.editOrAdd === "edit") {
       const data = {
@@ -93,6 +94,7 @@ class Form extends Component {
         parent_id: id,
         name,
         description,
+        ordering: newOrderingForAddedCat,
         is_visible: true
       }
       api.post(data).then(data => this.props.addToState(data));
@@ -104,12 +106,20 @@ class Form extends Component {
 
   render() {
     const { name, description } = this.state;
+    const {
+      single_cat: {
+        name: catName,
+         id: catId
+      },
+      editOrAdd
+    } = this.props;
 
     return (
       <StyledForm onSubmit={this.handleSubmit}>
         <StyledText>
-          {this.props.editOrAdd === "edit" && (`Edycja kategorii: ${this.props.single_cat.name}`)}
-          {this.props.editOrAdd === "add" && (`Dodawanie podkategorii do: ${this.props.single_cat.name}`)}
+          {editOrAdd === "edit" && (`Edycja kategorii: ${catName}`)}
+          {editOrAdd === "add" && catId !== 1 &&  (`Dodawanie podkategorii do: ${catName}`)}
+          {catId === 1 && 'Dodawanie głównej kategorii: '}
         </StyledText>
         <StyledX onClick={this.props.closeForm}> <IoIosCloseCircleOutline />  </StyledX>
         <StyledInput value={name} onChange={this.handleChange} name="name" type="text" placeholder="Nazwa" />

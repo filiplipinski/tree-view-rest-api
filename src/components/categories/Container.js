@@ -6,7 +6,7 @@ const Container = styled.div`
   border-radius: 6px;
   display: inline-block;
   min-width: 300px;
-  padding: 10px;
+  padding: 0 10px;
   margin: 50px 50px;
 `
 export default Container;
