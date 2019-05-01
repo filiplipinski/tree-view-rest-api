@@ -8,8 +8,9 @@
 * Strona napisana jest w technologii **React**, korzystam również z Styled Components.
 
 ## Instalacja
-```python
+```bash
 git clone https://github.com/filiplipinski/tree-view-rest-api.git tree-view-rest-api
 cd tree-view-rest-api
+npm install
 npm start
 ```
