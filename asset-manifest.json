@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/filiplipinski/tree-view-rest-api/static/js/main.a871551c.chunk.js",
-    "main.js.map": "/filiplipinski/tree-view-rest-api/static/js/main.a871551c.chunk.js.map",
-    "runtime~main.js": "/filiplipinski/tree-view-rest-api/static/js/runtime~main.9c9269b2.js",
-    "runtime~main.js.map": "/filiplipinski/tree-view-rest-api/static/js/runtime~main.9c9269b2.js.map",
-    "static/js/2.d45426dc.chunk.js": "/filiplipinski/tree-view-rest-api/static/js/2.d45426dc.chunk.js",
-    "static/js/2.d45426dc.chunk.js.map": "/filiplipinski/tree-view-rest-api/static/js/2.d45426dc.chunk.js.map",
-    "index.html": "/filiplipinski/tree-view-rest-api/index.html",
-    "precache-manifest.fe02b65a755b64056702d9c8621166ad.js": "/filiplipinski/tree-view-rest-api/precache-manifest.fe02b65a755b64056702d9c8621166ad.js",
-    "service-worker.js": "/filiplipinski/tree-view-rest-api/service-worker.js"
+    "main.js": "/tree-view-rest-api/static/js/main.b0e3bcec.chunk.js",
+    "main.js.map": "/tree-view-rest-api/static/js/main.b0e3bcec.chunk.js.map",
+    "runtime~main.js": "/tree-view-rest-api/static/js/runtime~main.655bb9cd.js",
+    "runtime~main.js.map": "/tree-view-rest-api/static/js/runtime~main.655bb9cd.js.map",
+    "static/js/2.e0c3be19.chunk.js": "/tree-view-rest-api/static/js/2.e0c3be19.chunk.js",
+    "static/js/2.e0c3be19.chunk.js.map": "/tree-view-rest-api/static/js/2.e0c3be19.chunk.js.map",
+    "index.html": "/tree-view-rest-api/index.html",
+    "precache-manifest.320affa310193cd200a1a27897998dd7.js": "/tree-view-rest-api/precache-manifest.320affa310193cd200a1a27897998dd7.js",
+    "service-worker.js": "/tree-view-rest-api/service-worker.js"
   }
 }
