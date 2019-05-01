@@ -76,17 +76,23 @@ class Form extends Component {
 
   handleSubmit = () => {
     const { name, description } = this.state;
-    const { id, parent_id, ordering } = this.props.single_cat;
+    const {
+      id,
+      parent_id,
+      ordering,
+      name: oldName,
+      description: oldDescription } = this.props.single_cat;
     const newOrderingForAddedCat = this.props.biggestOrderingOfChilds + 1;
 
     if (this.props.editOrAdd === "edit") {
       const data = {
         parent_id,
-        name,
-        description,
+        name: name ? name : oldName,
+        description: description ? description : oldDescription,
         ordering,
         is_visible: true
       }
+      if (name === "" && description === "") alert('Podaj dane które chcesz nadpisać.');
       api.put(id, data).then(data => this.props.updateState(data));
     }
     else if (this.props.editOrAdd === "add") {
@@ -97,9 +103,10 @@ class Form extends Component {
         ordering: newOrderingForAddedCat,
         is_visible: true
       }
-      api.post(data).then(data => this.props.addToState(data));
+      if (name === "") alert('Musisz podać nazwę kategorii którą chcesz dodać.');
+      else api.post(data).then(data => this.props.addToState(data));
     }
-    else alert("Invalid props editOrAdd");
+    else console.log("Error: Invalid props editOrAdd");
 
     this.props.closeForm();
   }
@@ -109,7 +116,7 @@ class Form extends Component {
     const {
       single_cat: {
         name: catName,
-         id: catId
+        id: catId
       },
       editOrAdd
     } = this.props;
@@ -118,7 +125,7 @@ class Form extends Component {
       <StyledForm onSubmit={this.handleSubmit}>
         <StyledText>
           {editOrAdd === "edit" && (`Edycja kategorii: ${catName}`)}
-          {editOrAdd === "add" && catId !== 1 &&  (`Dodawanie podkategorii do: ${catName}`)}
+          {editOrAdd === "add" && catId !== 1 && (`Dodawanie podkategorii do: ${catName}`)}
           {catId === 1 && 'Dodawanie głównej kategorii: '}
         </StyledText>
         <StyledX onClick={this.props.closeForm}> <IoIosCloseCircleOutline />  </StyledX>

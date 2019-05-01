@@ -75,6 +75,7 @@ const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
   border-top: 1px solid black;   
+
   :first-child {
     border: none;
   }
@@ -97,23 +98,22 @@ const Category = (props) => {
       deleteCatFromState={deleteCatFromState}
       depth={depth + 1}
     />
-  ))
-
+  ));
 
   const doHaveMoreChilds = () => {
     if (getChildCat(single_cat).length === 0) return false
     else return true
-  }
+  };
 
   const findBiggestOrderingOfChilds = () => {
     const childs = getChildCat(single_cat);
     const maxOrdering = Math.max(...childs.map(cat => cat.ordering), -1);
     return maxOrdering;
-  }
+  };
 
   return (
     <>
-      {single_cat.is_visible && (
+      {/* {single_cat.is_visible && ( */}
         <StyledWrapper>
           {single_cat.id === 1 ? (
             <>
@@ -126,8 +126,7 @@ const Category = (props) => {
           ) : (
               <>
                 <StyledCatContainer depth={depth} onClick={() => toggleVisibility(single_cat)}>
-                  {/* CHHHHHWWIIILOWY ONLICK NA STYLEDNAME !!!!!!!!!! */}
-                  <StyledName onClick={() => console.log(single_cat)}>
+                  <StyledName>
                     {doHaveMoreChilds() && (single_cat.childVisible ? <MdExpandMore /> : <MdChevronRight />)}
                     {single_cat.name}
                   </StyledName>
@@ -166,10 +165,9 @@ const Category = (props) => {
               biggestOrderingOfChilds={findBiggestOrderingOfChilds()}
             />}
         </StyledWrapper>
-      )}
+      {/* )} */}
 
       {single_cat.childVisible && childs}
-
     </>
   )
 }

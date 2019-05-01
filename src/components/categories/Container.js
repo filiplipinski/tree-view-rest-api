@@ -7,6 +7,6 @@ const Container = styled.div`
   display: inline-block;
   min-width: 300px;
   padding: 0 10px;
-  margin: 50px 50px;
+  margin: 5vw 0 50px 5vw;
 `
 export default Container;

@@ -18,14 +18,22 @@ const fetchData = async (url, method, data) => {
       throw Error(`Error ${response.status}`);
     })
     .then(data => data)
-    .catch(err => console.log(err))
+    .catch(err => {
+      alert("Failed to fetch. Check console.");
+      console.log(err);
+      return [];
+    })
 
   return response;
 }
 
 const api = {
   get: async () => {
-    return await fetchData('/categories', 'GET').then(dataReceived => dataReceived.data.categories);
+    return await fetchData('/categories', 'GET').then(dataReceived => {
+      if (dataReceived.length !== 0)
+        return dataReceived.data.categories;
+      else return [];
+    })
   },
 
   put: async (id, category) => {
