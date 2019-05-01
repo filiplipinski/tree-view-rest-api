@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Container from './Container';
+import LoadingText from './LoadingText'
 import Category from './Category';
 import api from '../../services/api';
 
@@ -96,7 +97,7 @@ class Categories extends Component {
 
     return (
       <Container>
-        {rootReactElem ? rootReactElem : <p>Ładowanie...</p>}
+        {rootReactElem ? rootReactElem : <LoadingText>Ładowanie kategorii...</LoadingText>}
       </Container >
     )
   }
