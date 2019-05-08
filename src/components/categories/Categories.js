@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import Container from './Container';
-import LoadingText from './LoadingText'
-import Category from './Category';
+import { Container, LoadingText } from './CategoriesStyles';
+import Category from './Category/Category';
 import api from '../../services/api';
 
 
@@ -11,18 +10,21 @@ class Categories extends Component {
   }
 
   componentDidMount() {
+    // api.get().then(data => this.setState({ data }) );
+
     api.get().then(data => {
-      data.map(single_data => {
-        // Adding property 'childVisible', which specify if category is expanded ( and subcategories are visible ) or not.
-        // By default, only root category has childs visible
+      // Adding property 'childVisible', which specify if category is expanded ( and subcategories are visible ) or not.
+      // By default, only root category has childs visible
+      data.forEach(single_data => {
         if (single_data.id === 1) single_data.childVisible = true;
         else single_data.childVisible = false;
-        return data;
-      });
-      data.sort((a, b) => (a.ordering - b.ordering));
+      })
+
       this.setState({ data });
       // console.log(data);
     });
+
+    this.sortData();
   }
 
   updateState = (updatedCat) => {
@@ -33,17 +35,21 @@ class Categories extends Component {
         cat.description = updatedCat.description;
         cat.is_visible = updatedCat.is_visible;
         cat.ordering = updatedCat.ordering;
+        cat.childVisible = false;
       }
-      return cat
+      return cat;
     });
 
     this.setState({ data: modifiedCat });
   }
 
   addToState = (newCat) => {
+    newCat.childVisible = false;
+
     this.setState(prevState => ({
       data: [...prevState.data, newCat],
     }));
+    this.sortData();
   }
 
   deleteCatFromState = (catToDelete) => {
@@ -75,6 +81,10 @@ class Categories extends Component {
     this.setState({ data: newData });
   }
 
+  sortData = () => {
+    const data = this.state.data.sort((a, b) => (a.ordering - b.ordering));
+    this.setState({ data });
+  }
 
   render() {
     let rootReactElem = null;

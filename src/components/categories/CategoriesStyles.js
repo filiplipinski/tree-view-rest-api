@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
+export const Container = styled.div`
   background-color: #eee;
   border: 1px solid black;
   border-radius: 6px;
@@ -9,4 +9,9 @@ const Container = styled.div`
   padding: 0 10px;
   margin: 5vw 0 50px 5vw;
 `
-export default Container;
+
+export const LoadingText = styled.p`
+  font-size: 1.8em;
+  line-height: 1.9em;
+  font-weight: ${({ theme }) => theme.font.semi_bold}; 
+`
